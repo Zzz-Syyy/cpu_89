@@ -39,7 +39,7 @@ module pc_reg(
 	always @ (posedge clk) begin
 		if (ce == `ChipDisable) 
 		begin
-			pc <= 32'h00000000;
+			pc <=32'h00400000;
 		end 
 		else begin
 			if(flush == 1'b1) 
