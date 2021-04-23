@@ -41,7 +41,7 @@ module inst_rom(
 //    );
 
 	always @ (*) begin
-	    inst=inst_out;
+//	    inst=inst_out;
 	    
 		if (ce == `ChipDisable) 
 		begin
@@ -52,6 +52,7 @@ module inst_rom(
 		    inst <= inst_mem[addr[`InstMemNumLog2+1:2]];
 		end
 	end
+
 
     assign reg28=inst;
     
