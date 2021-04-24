@@ -25,8 +25,8 @@ module inst_rom(
 	input wire ce,
 	input wire[`InstAddrBus]   addr,
 	output reg [`InstBus]   inst,
-	input clk_inst,
-	output[31:0] reg28
+	input clk_inst
+//	output[31:0] reg28
 );
 
 	reg[`InstBus]  inst_mem[0:1024];
@@ -41,7 +41,7 @@ module inst_rom(
 //    );
 
 	always @ (*) begin
-	    inst=inst_out;
+//	    inst=inst_out;
 	    
 		if (ce == `ChipDisable) 
 		begin
@@ -53,7 +53,8 @@ module inst_rom(
 		end
 	end
 
-    assign reg28=inst;
+
+//    assign reg28=inst;
     
 endmodule
 

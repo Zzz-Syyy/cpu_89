@@ -25,7 +25,7 @@
 module openmips_min_sopc(
 	input	wire clk,
 	input wire	rst,
-	output [31:0] reg28,
+	output [31:0] result,
 	input clk_inst
 );
 
@@ -66,8 +66,8 @@ module openmips_min_sopc(
 		.ce(1'b1),
 		.addr(inst_addr),
 		.inst(inst),
-		.clk_inst(clk_inst),
-		.reg28(reg28)	
+		.clk_inst(clk_inst)
+//		.reg28(reg28)	
 	);
 
 	data_ram data_ram0(
@@ -77,7 +77,9 @@ module openmips_min_sopc(
 		.addr(mem_addr_i),
 		.sel(mem_sel_i),
 		.data_i(mem_data_i),
-		.data_o(mem_data_o)	
+		.data_o(mem_data_o),
+		.result(result)
+		
 	);
 
 endmodule
