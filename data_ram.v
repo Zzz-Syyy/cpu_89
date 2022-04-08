@@ -29,7 +29,8 @@ module data_ram(
 	input wire[`DataAddrBus]   addr,
 	input wire[3:0]    sel,
 	input wire[`DataBus]   data_i,
-	output reg[`DataBus]   data_o
+	output reg[`DataBus]   data_o,
+	output reg[31:0] result
 );
 
 	reg[`ByteWidth]  data_mem0[0:1023];
@@ -45,19 +46,19 @@ module data_ram(
 		begin
 			  if (sel[3] == 1'b1) 
 			  begin
-		      data_mem3[addr[`DataMemNumLog2+1:2]] <= data_i[31:24];
+		          data_mem3[addr[`DataMemNumLog2+1:2]-17'b00100000000000000] <= data_i[31:24];
 		      end
 			  if (sel[2] == 1'b1) 
 			  begin
-		      data_mem2[addr[`DataMemNumLog2+1:2]] <= data_i[23:16];
+		          data_mem2[addr[`DataMemNumLog2+1:2]-17'b00100000000000000] <= data_i[23:16];
 		      end
 		      if (sel[1] == 1'b1) 
 		      begin
-		          data_mem1[addr[`DataMemNumLog2+1:2]] <= data_i[15:8];
+		          data_mem1[addr[`DataMemNumLog2+1:2]-17'b00100000000000000] <= data_i[15:8];
 		      end
 			  if (sel[0] == 1'b1) 
 			  begin
-		      data_mem0[addr[`DataMemNumLog2+1:2]] <= data_i[7:0];
+		          data_mem0[addr[`DataMemNumLog2+1:2]-17'b00100000000000000] <= data_i[7:0];
 		      end			   	    
 		end
 	end
@@ -69,10 +70,10 @@ module data_ram(
 	    end 
 	    else if(we == `WriteDisable) 
 	    begin
-		    data_o <= {data_mem3[addr[`DataMemNumLog2+1:2]],
-		               data_mem2[addr[`DataMemNumLog2+1:2]],
-		               data_mem1[addr[`DataMemNumLog2+1:2]],
-		               data_mem0[addr[`DataMemNumLog2+1:2]]};
+		    data_o <= {data_mem3[addr[`DataMemNumLog2+1:2]-17'b00100000000000000],
+		               data_mem2[addr[`DataMemNumLog2+1:2]-17'b00100000000000000],
+		               data_mem1[addr[`DataMemNumLog2+1:2]-17'b00100000000000000],
+		               data_mem0[addr[`DataMemNumLog2+1:2]-17'b00100000000000000]};
 		end 
 		else 
 		begin
@@ -80,4 +81,7 @@ module data_ram(
 		end
 	end		
 
+    always @(*) begin
+        result<={data_mem3[8'h00],data_mem2[8'h00],data_mem1[8'h00],data_mem0[8'h00]};
+    end
 endmodule

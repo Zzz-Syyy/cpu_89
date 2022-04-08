@@ -28,7 +28,8 @@ module CPU_top(
 //    output [31:0] reg28
     );
     
-    parameter T1s = 99999999;
+   parameter T1s = 249999;//下板的周期
+//    parameter T1s = 99;
     
     reg [30:0] count;
     reg clk_1s;
@@ -38,7 +39,7 @@ module CPU_top(
     
     wire [31:0] inst;
 //    wire [31:0] pc;      
-    wire [31:0] reg28;
+    wire [31:0] result;
     wire [31:0] seg7_in;
     
     always @ (posedge clk or posedge rst) 
@@ -61,7 +62,7 @@ module CPU_top(
                 clk_inst <= 1;
                 count_inst <= 0;
             end
-            else if(count_inst == 49999999) begin
+            else if(count_inst == 99999) begin
                 count_inst <= 0;
                 clk_inst <= ~clk_inst;
             end
@@ -72,7 +73,7 @@ module CPU_top(
     openmips_min_sopc cpu(
         .clk(clk_1s),
         .rst(rst),
-        .reg28(reg28),
+        .result(result),
         .clk_inst(clk_inst)
     );
     
@@ -80,7 +81,7 @@ module CPU_top(
         .clk(clk),
         .reset( rst), 
         .cs(1'b1),
-        .i_data(reg28),
+        .i_data(result),
         .o_seg(o_seg),
         .o_sel(o_sel)
     );
